@@ -1,32 +1,11 @@
 <template>
   <modalAuthBase
     :title="title"
-    :path="path"
-    :linkText="linkText"
   >
-    
     <template v-slot:content>
       <div class="modal-header justify-content-center" slot="content">
-        <form @submit.prevent="validate">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <button type="button" class="btn btn-primary" @click.prevent="onSubmit">Google</button>
       </div>
-      <vue-recaptcha
-        ref="recaptcha"
-        size="invisible"
-        :sitekey="sitekey"
-        @verify="onSubmit"
-        @expired="onCaptchaExpired"
-      />
     </template>
 
     <template v-slot:footer>
@@ -37,68 +16,70 @@
 
 <script>
 import modalAuthBase from '@/components/ModalAuth_base.vue'
-import { required, email } from 'vuelidate/lib/validators'
-import VueRecaptcha from 'vue-recaptcha'
-import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
+import auth from '@/services/auth.js'
 
 export default {
   name: 'Login',
   components: {
-    modalAuthBase,
-    VueRecaptcha 
+    modalAuthBase
   },
   data: () => ({
     title: 'Login',
-    path: '/register',
-    linkText: 'Need an account? Sign up!',
-    email: '',
-    password: '',
-    sitekey: process.env.VUE_APP_GOOGLE_RECAPTCHA_KEY
+    id: '',
+    name: '',
+    image: ''
   }),
-  validations: {
-    email: {
-      email,
-      required
-    },
-    password: {
-      required
-    }
+  async created() {
+    const gapi = await this.$gapi
   },
   methods: {
-    validate() {
-      if(this.$v.$invalid) {
-        this.$v.$touch()
-        return 
-      }
-      this.$refs.recaptcha.execute()
-    },
+    async onSubmit() {
 
-    onSubmit(recaptchaToken) {
-      const credentials = {
-        email: this.email,
-        password: this.password,
-        recaptcha_token: recaptchaToken
-      }
+      const googleUser = await this.$gapi.signIn()
 
-      this.login(credentials)
-        .then(() => {
-          // this.$router.push('/')
-          window.location.href = '/'
-        })
-        .catch(e => e.message)
-    },
+      // Get token and set it to Local Storage
+      const load = await this.$gapi._load()
+      const token = load.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token
 
-     onCaptchaExpired () {
-      this.$refs.recaptcha.reset()
-    },
+      auth.setToken(token)
 
-    ...mapActions('authentication', [
-      'login'
-    ])
+      this.$router.push('/')
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/assets/main.scss';
 
+.modal-content {
+  padding: 15px;
+}
+
+.avatar {
+  display: block;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -50px;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 9;
+  background: map_get($colors, "crimson");
+  padding: 15px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    vertical-align: middle;
+    border: 0;
+  }
+}
+
+.modal-title {
+  padding-top: 25px;
+}
 </style>

@@ -1,27 +1,25 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-lg-6">Вы в системе</div>
-      <div class="col-lg-6">
-        <button class="btn btn-primary" @click="click">Logout</button>
-      </div>
+    <div class="row justify-content-center mt-2">
+      <Map></Map>
     </div>
   </div>
 </template>
 
 <script>
-import auth from '@/requests/auth.js'
+import Map from '@/components/Map'
 
 export default {
-  methods: {
-    click() {
-      auth.logout()
-      window.location.href = '/'
-    }
+  components: {
+    Map
+  },
+  async created() {
+    const gapi = await this.$gapi
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+
 
 </style>

@@ -17,7 +17,7 @@
       <slot name="footer">
         <div class="modal-header justify-content-center text-center">
           <div class="small">
-            <router-link :to="path">{{linkText}}</router-link>
+            <span class="footer__text">Sign in with Google</span>
           </div>
         </div>
       </slot>
@@ -33,19 +33,16 @@ export default {
     title: {
       type: String,
       required: true
-    },
-    path: {
-      type: String,
-      required: true
-    },
-    linkText: {
-      type: String,
-      required: true
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/assets/main.scss';
 
+.footer__text {
+  color: map_get($colors, "crimson");
+  cursor: default;
+}
 </style>

@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
-import Register from '@/views/Register.vue'
-import auth from '@/requests/auth.js'
+import auth from '@/services/auth.js'
 
 Vue.use(VueRouter)
 
@@ -16,17 +15,41 @@ const routes = [
     }
   },
   {
-    name: 'register',
-    path: '/register',
-    component: Register,
-    meta: {
-      layout: 'auth'
-    }
-  },
-  {
     name: 'home',
     path: '/',
     component:() => import('@/views/Home.vue'),
+    meta: {
+      layout: 'main'
+    }
+  },
+  {
+    name: 'storage',
+    path: '/storage',
+    component:() => import('@/views/Storage.vue'),
+    meta: {
+      layout: 'main'
+    }
+  },
+  {
+    name: 'countries',
+    path: '/countries',
+    component:() => import('@/views/Countries.vue'),
+    meta: {
+      layout: 'main'
+    }
+  },
+  {
+    name: 'profile',
+    path: '/profile',
+    component:() => import('@/views/Profile.vue'),
+    meta: {
+      layout: 'main'
+    }
+  },
+  {
+    name: 'dictionary',
+    path: '/dictionary',
+    component:() => import('@/views/Dictionary.vue'),
     meta: {
       layout: 'main'
     }
@@ -40,9 +63,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register']
-  const authRequired = !publicPages.includes(to.path)
-  const authenticated = auth.isAuthenticated()
+  let publicPages = ['/login']
+  let authRequired = !publicPages.includes(to.path)
+  let authenticated = auth.isAuthenticated()
   if (authRequired && !authenticated) {
     next('/login?message=login')
   } else {

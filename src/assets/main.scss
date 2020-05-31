@@ -1,0 +1,58 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/_mixins.scss";
+
+$theme-colors: (
+  "primary": #c91d57,
+  "success": #55c554,
+  "info":    #f65a41
+);
+
+$colors: (
+  "dark":         #222646,
+  "light-dark":   #242b51,
+  "crimson":      #e02261,
+  "dark-crimson": #742454,
+  "green":        #55c554,
+  "orange":       #f65a41,
+  "dark-green":   #2bb469,
+  "purple":       #313777,
+  "card-bg":      #242b51,
+  "gray":         #dcdde3,
+  "white":        #fff
+);
+
+$modal-content-border-color:     map_get($colors, "purple");
+$link-color:                     map_get($colors, "crimson");
+$link-hover-decoration:          none;
+$modal-content-bg:               map_get($colors, "light-dark");
+
+$navbar-light-color:             map_get($colors, "gray");
+$navbar-light-hover-color:       map_get($colors, "crimson");
+$navbar-light-brand-color:       map_get($colors, "gray");
+$navbar-light-brand-hover-color: map_get($colors, "gray");
+$navbar-light-active-color:      map_get($colors, "crimson");
+
+$input-focus-box-shadow:         none;
+$input-focus-border-color:       map_get($colors, "crimson");
+
+$modal-dialog-margin-y-sm-up:    150px;
+$dropdown-link-active-bg:        map_get($colors, "dark-green");
+
+$body-bg:                        map_get($colors, "dark");
+$body-color:                     map_get($colors, "gray");
+
+$modal-header-border-width:      0;
+$modal-header-border-color:      none;
+
+// background-color: #222646; темный для фона
+// #242b51 слегка посветлее
+
+// #c91d57 яркий малиновый
+// #742454 потемнее малиновый
+// #55c554 яркий зеленый
+// #2bb469 зеленый поспокойнее
+// #f65a41 яркиий оранжевый
+// #313777 фиолетовый
+
+// #dcdde3 цвет шрифта тонкий

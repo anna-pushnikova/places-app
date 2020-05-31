@@ -1,16 +1,19 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-5">
-        <router-view></router-view>
-      </div>
+  <div>
+
+    <Navbar/>
+    <div class="container">
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue'
 export default {
-
+  components: {
+    Navbar
+  }
 }
 </script>
 
